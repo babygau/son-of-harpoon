@@ -1,13 +1,12 @@
-
 # NOTE: this is a fork of Harpoon
 
 I am a huge fan of Harpoon and use it everyday. I also wanna learn me a Lua, so
 I think this is a good idea that I could learn Lua by grokking how Harpoon work.
-Hopefully I could contribute back to community somedays.
+Hopefully I could contribute back to the community someday.
 
-One more thing, @theprimeagen seems take lot of time to merge people's PR. I'm
-impatient, so I will merge new PR as soon as possible.
-
+One more thing, @theprimeagen seems to take lot of time to merge people's PR.
+While it's understandable, I'm impatient, so I will merge new PR as soon as
+possible.
 
 <div align="center">
 
@@ -176,7 +175,7 @@ global_settings = {
     -- sets harpoon to run the command immediately as it's passed to the terminal when calling `sendCommand`.
     enter_on_sendcmd = false,
 
-    -- closes any tmux windows harpoon that harpoon creates when you close Neovim.
+    -- closes any tmux windows that harpoon creates when you close Neovim.
     tmux_autoclose_windows = false,
 
     -- filetypes that you want to prevent from adding to the harpoon list menu.
