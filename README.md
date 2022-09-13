@@ -1,12 +1,15 @@
-<div align="center">
-# This is a fork of Harpoon
+
+# NOTE: this is a fork of Harpoon
 
 I am a huge fan of Harpoon and use it everyday. I also wanna learn me a Lua, so
 I think this is a good idea that I could learn Lua by grokking how Harpoon work.
 Hopefully I could contribute back to community somedays.
 
-On more thing, @theprimeagen seems take lot of time to merge people's PR. I'm
+One more thing, @theprimeagen seems take lot of time to merge people's PR. I'm
 impatient, so I will merge new PR as soon as possible.
+
+
+<div align="center">
 
 # Harpoon
 
