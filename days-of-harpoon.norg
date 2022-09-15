@@ -1,0 +1,44 @@
+@document.meta
+title: Days of Harpoon
+description: How I learn Lua
+authors: babygau
+categories:
+created: 2022-09-13
+version: 0.0.13
+@end
+
+* Days of Harpoon
+  I fork this project because I'm so in love with Harpoon and how effective it
+  is to improve my daily workflow. However, it's not just that. I wanna learn
+  Lua from scratch and think this is good way to gain practical knowledge by grokking how
+  this plugin work. Hopefully, I could rewrite Harpoon in `Fennel` or `Rust`
+  language, only for educational purpose. One more important thing, I want to
+  maintain this as I understand that @theprimeagen is too busy and he got many
+  things more important to look after.
+
+** Target:
+   - Learn me a Lua
+   - Keep this plugin bug free and will merge PR from upstream if I find it
+     reasonable
+   - Rewrite Harpoon in `Fennel`
+   - Make Harpoon greater with `Rust`
+   -- Hence, the name _Son of Harpoon_
+
+* Logs:
+  Note: community PR and/or commits are mentioned/honoured in commit history
+** Day 1:
+   /2022-09-09/
+   - Forked the project
+** Day 2:
+   /2022-09-10/
+   - Watched: https://www.youtube.com/watch?v=1srFmjt1Ib0
+   -- Learned basic Lua syntax
+** Day 3:
+   /2022-09-12/
+   - Work on `feat: send command to Tmux pane from Harpoon UI`
+** Day 4:
+   /2022-09-15/
+   - [x] My first PR: send command to Tmux pane from Harpoon UI menu
+   - Learned `pcall` and `xpcall` for error handlings
+   - [x] Better error handling if command send to Tmux pane which is not in
+   _editable_ mode (scroll-mode...)

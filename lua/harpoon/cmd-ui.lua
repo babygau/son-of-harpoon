@@ -1,9 +1,9 @@
-local harpoon = require("harpoon")
-local popup = require("plenary.popup")
-local utils = require("harpoon.utils")
-local log = require("harpoon.dev").log
-local term = require("harpoon.term")
-local tmux = require("harpoon.tmux")
+local harpoon = require 'harpoon'
+local popup = require 'plenary.popup'
+local utils = require 'harpoon.utils'
+local log = require('harpoon.dev').log
+local term = require 'harpoon.term'
+local tmux = require 'harpoon.tmux'
 
 local M = {}
 
@@ -15,7 +15,7 @@ local function close_menu(force_save)
   local global_config = harpoon.get_global_settings()
 
   if global_config.save_on_toggle or force_save then
-    require("harpoon.cmd-ui").on_menu_save()
+    require('harpoon.cmd-ui').on_menu_save()
   end
 
   vim.api.nvim_win_close(Harpoon_cmd_win_id, true)
@@ -25,17 +25,16 @@ local function close_menu(force_save)
 end
 
 local function create_window()
-  log.trace("_create_window()")
+  log.trace '_create_window()'
   local config = harpoon.get_menu_config()
   local width = config.width or 60
   local height = config.height or 10
-  local borderchars = config.borderchars
-      or { "─", "│", "─", "│", "╭", "╮", "╯", "╰" }
+  local borderchars = config.borderchars or { '─', '│', '─', '│', '╭', '╮', '╯', '╰' }
   local bufnr = vim.api.nvim_create_buf(false, false)
 
   local Harpoon_cmd_win_id, win = popup.create(bufnr, {
-    title = "Harpoon Commands",
-    highlight = "HarpoonWindow",
+    title = 'Harpoon Commands',
+    highlight = 'HarpoonWindow',
     line = math.floor(((vim.o.lines - height) / 2) - 1),
     col = math.floor((vim.o.columns - width) / 2),
     minwidth = width,
@@ -43,11 +42,7 @@ local function create_window()
     borderchars = borderchars,
   })
 
-  vim.api.nvim_win_set_option(
-    win.border.win_id,
-    "winhl",
-    "Normal:HarpoonBorder"
-  )
+  vim.api.nvim_win_set_option(win.border.win_id, 'winhl', 'Normal:HarpoonBorder')
 
   return {
     bufnr = bufnr,
@@ -56,7 +51,7 @@ local function create_window()
 end
 
 local function get_menu_items()
-  log.trace("_get_menu_items()")
+  log.trace '_get_menu_items()'
   local lines = vim.api.nvim_buf_get_lines(Harpoon_cmd_bufh, 0, -1, true)
   local indices = {}
 
@@ -70,10 +65,8 @@ local function get_menu_items()
 end
 
 function M.toggle_quick_menu()
-  log.trace("cmd-ui#toggle_quick_menu()")
-  if Harpoon_cmd_win_id ~= nil
-      and vim.api.nvim_win_is_valid(Harpoon_cmd_win_id)
-  then
+  log.trace 'cmd-ui#toggle_quick_menu()'
+  if Harpoon_cmd_win_id ~= nil and vim.api.nvim_win_is_valid(Harpoon_cmd_win_id) then
     close_menu()
     return
   end
@@ -89,38 +82,35 @@ function M.toggle_quick_menu()
     contents[idx] = cmd
   end
 
-  vim.api.nvim_win_set_option(Harpoon_cmd_win_id, "number", true)
-  vim.api.nvim_buf_set_name(Harpoon_cmd_bufh, "harpoon-cmd-menu")
+  vim.api.nvim_win_set_option(Harpoon_cmd_win_id, 'number', true)
+  vim.api.nvim_buf_set_name(Harpoon_cmd_bufh, 'harpoon-cmd-menu')
   vim.api.nvim_buf_set_lines(Harpoon_cmd_bufh, 0, #contents, false, contents)
-  vim.api.nvim_buf_set_option(Harpoon_cmd_bufh, "filetype", "harpoon")
-  vim.api.nvim_buf_set_option(Harpoon_cmd_bufh, "buftype", "acwrite")
-  vim.api.nvim_buf_set_option(Harpoon_cmd_bufh, "bufhidden", "delete")
+  vim.api.nvim_buf_set_option(Harpoon_cmd_bufh, 'filetype', 'harpoon')
+  vim.api.nvim_buf_set_option(Harpoon_cmd_bufh, 'buftype', 'acwrite')
+  vim.api.nvim_buf_set_option(Harpoon_cmd_bufh, 'bufhidden', 'delete')
   vim.api.nvim_buf_set_keymap(
     Harpoon_cmd_bufh,
-    "n",
-    "q",
+    'n',
+    'q',
     "<Cmd>lua require('harpoon.cmd-ui').toggle_quick_menu()<CR>",
     { silent = true }
   )
   vim.api.nvim_buf_set_keymap(
     Harpoon_cmd_bufh,
-    "n",
-    "<ESC>",
+    'n',
+    '<ESC>',
     "<Cmd>lua require('harpoon.cmd-ui').toggle_quick_menu()<CR>",
     { silent = true }
   )
   vim.api.nvim_buf_set_keymap(
     Harpoon_cmd_bufh,
-    "n",
-    "<CR>",
+    'n',
+    '<CR>',
     "<Cmd>lua require('harpoon.cmd-ui').select_menu_item()<CR>",
     {}
   )
   vim.cmd(
-    string.format(
-      "autocmd BufWriteCmd <buffer=%s> lua require('harpoon.cmd-ui').on_menu_save()",
-      Harpoon_cmd_bufh
-    )
+    string.format("autocmd BufWriteCmd <buffer=%s> lua require('harpoon.cmd-ui').on_menu_save()", Harpoon_cmd_bufh)
   )
   if global_config.save_on_change then
     vim.cmd(
@@ -130,38 +120,40 @@ function M.toggle_quick_menu()
       )
     )
   end
-  vim.cmd(
-    string.format(
-      "autocmd BufModifiedSet <buffer=%s> set nomodified",
-      Harpoon_cmd_bufh
-    )
-  )
+  vim.cmd(string.format('autocmd BufModifiedSet <buffer=%s> set nomodified', Harpoon_cmd_bufh))
 end
 
 function M.select_menu_item()
-  log.trace("cmd-ui#select_menu_item()")
-  local cmd = vim.fn.line(".")
+  log.trace 'cmd-ui#select_menu_item()'
+  local cmd = vim.fn.line '.'
   close_menu(true)
   if tmux.is_tmux then
-    local idx = vim.fn.input("Tmux index (default to {next}): ")
-    if idx == "" then
-      idx = "{next}"
+    local idx = vim.fn.input 'Tmux index (default to {next}): '
+    if idx == '' then
+      idx = '{next}'
     end
-    tmux.sendCommand(idx, cmd)
+    local ok, _ = pcall(tmux.sendCommand, idx, cmd)
+    if not ok then
+      log.warn [[Cannot send command!
+                Is Tmux pane in scroll mode?]]
+    end
   else
-    local idx = vim.fn.input("Terminal index (default to 1): ")
-    if idx == "" then
-      idx = "1"
+    local idx = vim.fn.input 'Terminal index (default to 1): '
+    if idx == '' then
+      idx = '1'
     end
     local idx = tonumber(idx)
     if idx then
-      term.sendCommand(idx, cmd)
+      local ok, _ = pcall(term.sendCommand, idx, cmd)
+      if not ok then
+        log.warn 'Cannot send command!'
+      end
     end
   end
 end
 
 function M.on_menu_save()
-  log.trace("cmd-ui#on_menu_save()")
+  log.trace 'cmd-ui#on_menu_save()'
   term.set_cmd_list(get_menu_items())
 end
 
