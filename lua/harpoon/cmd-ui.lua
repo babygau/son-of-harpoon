@@ -83,6 +83,7 @@ function M.toggle_quick_menu()
   end
 
   vim.api.nvim_win_set_option(Harpoon_cmd_win_id, 'number', true)
+  vim.api.nvim_win_set_option(Harpoon_cmd_win_id, 'winhl', 'Normal:Normal')
   vim.api.nvim_buf_set_name(Harpoon_cmd_bufh, 'harpoon-cmd-menu')
   vim.api.nvim_buf_set_lines(Harpoon_cmd_bufh, 0, #contents, false, contents)
   vim.api.nvim_buf_set_option(Harpoon_cmd_bufh, 'filetype', 'harpoon')
@@ -134,8 +135,7 @@ function M.select_menu_item()
     end
     local ok, _ = pcall(tmux.sendCommand, idx, cmd)
     if not ok then
-      log.warn [[Cannot send command!
-                Is Tmux pane in scroll mode?]]
+      log.warn 'Cannot send command! Is Tmux pane in scroll mode?'
     end
   else
     local idx = vim.fn.input 'Terminal index (default to 1): '
